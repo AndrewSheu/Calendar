@@ -1,0 +1,92 @@
+/* Color 
+#eed9c4
+Black
+White 
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+
+body {
+    background-color: #eed9c4;
+}
+
+h1 {
+    text-align: center;
+}
+
+.Container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10%;
+}
+
+.warp{
+    border: 0.5rem solid white;
+    border-radius: 18px;
+    padding: 10%;
+}
+
+.Calendar{
+    display: flex;
+}
+
+.top-calendar{
+    display:block;
+    justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+.top-calendar i {
+    padding: 10px;
+}
+
+.year-box a {
+    font-size: x-large;
+}
+
+.months:hover {
+    color: #eed9c4;
+    background-color: white;
+    padding: 3px;
+    border-radius: 10px;
+}
+
+.bot-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-column-gap: 12px;
+    justify-content: center;
+    padding: 20px;
+    height: 150px;
+    background-color: white;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.event {
+    padding: 20px;
+}
+
+.event h2 {
+    padding: 10px;
+    text-align: center;
+}
+
+.event-box {
+    background-color: white;
+    border-radius: 3px;
+    padding: 10px 30px;
+    min-height: 100px;
+}
+
+.event-box li {
+    padding: 5px;
+}
