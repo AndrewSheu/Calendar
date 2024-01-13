@@ -16,21 +16,24 @@
                 <div class="Calender">
                     <div class="top-calendar">
                         <div class="year-box">
-                            <i class="fas fa-chevron-left"></i>
-                            <a class="year">2023</a>
-                            <i class="fas fa-chevron-right"></i>
+                            <i class="fas fa-chevron-left" id="year-previous"></i>
+                            <a class="year" id="year-display"></a>
+                            <i class="fas fa-chevron-right" id="year-next"></i>
                         </div>
-                        <a class="months" >December</a>
+                        <div>
+                            <a id="month-display" ></a>
+                        </div>
                     </div>
-                    <div class="bot-calendar">
+                    <div class="calendar-week-days">
                         <a>Sun</a>
                         <a>Mon</a>
-                        <a>Thue</a>
+                        <a>Thu</a>
                         <a>Wed</a>
-                        <a>Thur</a>
+                        <a>Thu</a>
                         <a>Fri</a>
                         <a>Sat</a>
                     </div>
+                    <div class="calendar-days"></div>
                 </div>
                 <div class="event">
                     <h2>Event</h2>
@@ -42,6 +45,7 @@
                         </ul>
                     </div>
                 </div>
+                <div id="months-list"></div>
             </div>
         </div>
 
@@ -49,3 +53,4 @@
     </div>
 </body>
 </html>
+<script src="/Script.js"></script>

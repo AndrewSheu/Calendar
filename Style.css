@@ -52,23 +52,38 @@ h1 {
     font-size: x-large;
 }
 
-.months:hover {
+a#month-display:hover {
     color: #eed9c4;
     background-color: white;
     padding: 3px;
     border-radius: 10px;
+    cursor: pointer;
 }
 
-.bot-calendar {
+.calendar-week-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-column-gap: 12px;
     justify-content: center;
-    padding: 20px;
-    height: 150px;
+    padding: 15px;
     background-color: white;
     border-radius: 3px;
     text-align: center;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-column-gap: 12px;
+    justify-content: center;
+    background-color: white;
+    padding: 5px 15px;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.calendar-days a {
+    padding: 5px;
 }
 
 .event {
@@ -90,3 +105,4 @@ h1 {
 .event-box li {
     padding: 5px;
 }
+
