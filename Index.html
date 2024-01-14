@@ -13,15 +13,15 @@
         <div class="warp">
             <h1>Canlender</h1>
             <div>
-                <div class="Calender">
-                    <div class="top-calendar">
+                <div class="calendar">
+                    <div class="calendar-header">
                         <div class="year-box">
-                            <i class="fas fa-chevron-left" id="year-previous"></i>
+                            <i class="fas fa-chevron-left year-change" id="prev-year"></i>
                             <a class="year" id="year-display"></a>
-                            <i class="fas fa-chevron-right" id="year-next"></i>
+                            <i class="fas fa-chevron-right year-change" id="next-year"></i>
                         </div>
                         <div>
-                            <a id="month-display" ></a>
+                            <a id="month-picker"></a>
                         </div>
                     </div>
                     <div class="calendar-week-days">
@@ -33,11 +33,21 @@
                         <a>Fri</a>
                         <a>Sat</a>
                     </div>
-                    <div class="calendar-days"></div>
+                    <div class="calendar-days" id="calendar-days"></div>
+                </div>
+                <div class="today_button" id="today_button">
+                    <a>back to today</a>
                 </div>
                 <div class="event">
                     <h2>Event</h2>
+                    
+                    <a id="event-date"></a>
                     <div class="event-box">
+                        <div class="event-header">
+                            <input type="text" id="text">
+                            <input type="button" id="add" value="add">
+                        </div>
+
                         <ul class="eventlist">
                             <li>meeting</li>
                             <li>dinner</li>
@@ -45,12 +55,11 @@
                         </ul>
                     </div>
                 </div>
-                <div id="months-list"></div>
+
             </div>
         </div>
-
-
+        <div class="monthslist"></div>
     </div>
+    <script src="/Script.js"></script>
 </body>
 </html>
-<script src="/Script.js"></script>

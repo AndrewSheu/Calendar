@@ -1,103 +1,107 @@
 // DOM
 const months_name = ["January", "Fedurary", "Murch", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"]
-const calendar = document.querySelector('#bot-calendar')
+
+const weekdays = ["Monday", "Tuesday", "Wednesday", "Thurday", "Friday", "Saturday", "Sunday"]
+
+// show css
+const calendar = document.querySelector('#calendar')
 
 // Leap Year Calculate
 isLeapyear = (year) => {
-    return (( year % 100 === 0) ? ( year % 400 === 0 ) : ( year % 4 === 0 ));
+    return (( year % 100 === 0) ? ( year % 400 === 0 ) : ( year % 4 === 0 ))
 } 
 // 另一個寫法 
 // const isLeapYear = year => (year % 100 === 0) ? (year % 400 === 0) : (year % 4 === 0);
 
 // if month is Feduary
 getFeduaryDay = (year) => {
-    return ( isLeapyear(year) ? 29 : 28 )
+    return isLeapyear(year) ? 29 : 28
 } 
 
-// Current time
-const currentTime = new Date()
-var currentMonth = (months_name[currentTime.getMonth()])
-let currentYear = currentTime.getFullYear()
-let currentDate = currentTime.getDate()
+let month_list = document.querySelector('.monthslist')
 
-let first_day = new Date(currentYear, currentMonth, 1)
+months_name.forEach((e, index) => {
 
-// Month
-month_picker = document.querySelector('#month-display')
-month_picker.innerHTML = currentMonth
+    let month = document.createElement('div')
+    month.innerHTML = `<div data-month="${index}">${e}</div>`
+    month.querySelector('div').onclick = () => {
+        month_list.classList.remove('show')
+        curr_month.value = index
+        generateCalendar(index, curr_year.value)
+    }
+    month_list.appendChild(month)
+})
 
-// Year
-year_display = document.querySelector('#year-display')
-year_display.innerHTML = currentYear
+month_picker = document.querySelector('#month-picker')
 
-const previous_year_button = document.querySelector('#year-previous')
-previous_year_button.onclick = () => {
-    --currentYear
-    console.log(currentYear)
-    // generateCalender(currentMonth.value, currentYear.value)
-}
-const next_year_button = document.querySelector('#year-next')
-next_year_button.onclick = () => {
-    ++currentYear
-    console.log(currentYear)
-    // generateCalender(currentMonth.value, currentYear.value)
+month_picker.onclick = () => {
+    month_list.classList.add('show')
 }
 
 // Year, Month get
-generateCalender = (months, year) => {
-    let calendar_days = calendar.querySelector('#calendar-day')
-    //let calendar_year = calendar.querySelector('#year')
-    let days_of_month = [31, getFeduaryDay, 31, 30, 31, 30, 31, 31, 30 ,31, 30, 31]
+generateCalendar = (month, year) => {
+    let calendar_days = document.querySelector('#calendar-days')
+    let calendar_year = document.querySelector('#year-display')
+    
+    let days_of_month = [31, getFeduaryDay(year), 31, 30, 31, 30, 31, 31, 30 ,31, 30, 31]
+
     calendar_days.innerHTML = ''
+
+    let currDate = new Date()
+
+    if (!month) month = currDate.getMonth()
+    if (!year) year = currDate.getFullYear()
+
+    month_picker.innerHTML = months_name[month]
+    calendar_year.innerHTML = year
+
+    let first_day = new Date(year, month, 1)
+
+    // the loop will create the day space for every month, it will count the month of the days and the start day is which day 
+    for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
+
+        let day = document.createElement('div')
+
+        if (i >= first_day.getDay()) {
+            day.classList.add('calendar-day-hover')
+            day.innerHTML = i - first_day.getDay() + 1 // add the day number
+
+            if (i - first_day.getDay() + 1 === currDate.getDate() && year === currDate.getFullYear() && month === currDate.getMonth()) {
+                day.classList.add('curr_date') // add today date the class='curr'date'
+            }
+        }
+        calendar_days.appendChild(day)
+    }
 }
 
-let days_of_month = [31, getFeduaryDay, 31, 30, 31, 30, 31, 31, 30 ,31, 30, 31]
+let currDate = new Date()
 
-for (let i = 0; i < days_of_month[currentTime.getMonth()]; i++) {
-    console.log(i)
-}
-// Day
-    // for (let i = 0; i <= days_of_month[currentMonth] + first_day.getDay() - 1; i++) {
-    //     console.log('print1')
-    //     let day = document.createElement('div');
-    //     if ( i >= first_day.getDay()) {
-    //     day.classList.add('calendar-day-hover');
-    //     day.innerHTML = i - first_day.getDay() + 1;
-    //     day.innerHTML += `<span></span>
-    //                         <span></span> 
-    //                         <span></span>
-    //                         <span></span>`;
-    //     if (
-    //         i - first_day.getDay() + 1 === currentTime.getDate() &&
-    //         year === currentTime.getFullYear() &&
-    //         month === currentTime.getMonth()
-    //     ) {
-    //         day.classList.add('curr-date');
-    //     }
-    //     }
-    // }
+let event_date = document.querySelector('#event-date')
+event_date.innerHTML =`${weekdays[currDate.getDay()]}  ` + `${currDate.getDate()} ` + `${months_name[currDate.getMonth()]} ` + `${currDate.getFullYear()} `
 
+let curr_month = { value: currDate.getMonth() }
+let curr_year = { value: currDate.getFullYear() }
 
+generateCalendar(curr_month.value, curr_year.value)
 
-function changeMonth(){}
-
-// months list display
-
-month_picker.addEventListener('click', function(e){
-    console.log('months_picker work')
- 
-})
-
-month_picker.onclick = () => {
-    month_picker.classList.add('show')
+document.querySelector('#prev-year').onclick = () => {
+    --curr_year.value
+    generateCalendar(curr_month.value, curr_year.value)
 }
 
-months_name.forEach( (e, index) => {
-    let month = document.createElement('div')
-    // month.querySelector('div').onclick = () => {
-    //     month_picker.classList.remove('show')
-    //     currentMonth.value = index
-    //     //generateCalender(index, currentYear.value)
-    // }
-    month_picker.appendChild(month)
-})
+document.querySelector('#next-year').onclick = () => {
+    ++curr_year.value
+    generateCalendar(curr_month.value, curr_year.value)
+}
+
+document.querySelector('#today_button').onclick = () => {
+    let currDate = new Date()
+
+    let curr_month = { value: currDate.getMonth() }
+    let curr_year = { value: currDate.getFullYear() }
+
+    generateCalendar(curr_month.value, curr_year.value)
+}
+
+// Create Event
+
