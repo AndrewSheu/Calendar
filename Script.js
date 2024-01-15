@@ -3,6 +3,8 @@ const months_name = ["January", "Fedurary", "Murch", "April", "May", "June", "Ju
 
 const weekdays = ["Monday", "Tuesday", "Wednesday", "Thurday", "Friday", "Saturday", "Sunday"]
 
+var gobal_selectDate;
+
 // show css
 const calendar = document.querySelector('#calendar')
 
@@ -21,7 +23,6 @@ getFeduaryDay = (year) => {
 let month_list = document.querySelector('.monthslist')
 
 months_name.forEach((e, index) => {
-
     let month = document.createElement('div')
     month.innerHTML = `<div data-month="${index}">${e}</div>`
     month.querySelector('div').onclick = () => {
@@ -38,13 +39,14 @@ month_picker.onclick = () => {
     month_list.classList.add('show')
 }
 
+
 // Year, Month get
 generateCalendar = (month, year) => {
+    localStorage.clear()
     let calendar_days = document.querySelector('#calendar-days')
     let calendar_year = document.querySelector('#year-display')
     let event_date = document.querySelector('#event-date')
 
-    
     let days_of_month = [31, getFeduaryDay(year), 31, 30, 31, 30, 31, 31, 30 ,31, 30, 31]
 
     calendar_days.innerHTML = ''
@@ -59,11 +61,11 @@ generateCalendar = (month, year) => {
 
     let first_day = new Date(year, month, 1)
 
-
     let today_display = `${weekdays[first_day.getDay()]} ${currDate.getDate()} ${months_name[month]} ${year}`
 
     event_date.innerHTML = today_display
 
+    gobal_selectDate = today_display
 
     // the loop will create the day space for every month, it will count the month of the days and the start day is which day 
     for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
@@ -89,20 +91,28 @@ generateCalendar = (month, year) => {
                 // 在這裡你可以執行其他相關的操作，例如顯示所選日期
 
                 let select_date = `${weekdays[first_day.getDay()]} ${i - first_day.getDay() + 1} ${months_name[month]} ${year}`
-    
+
+                gobal_selectDate = select_date
+
                 event_date.innerHTML = select_date
 
             });
         }
         calendar_days.appendChild(day)
     }
-    
+    EventList()
+}
+
+
+
+function EventList(){
     // Create Event List
+    updateList()
     var text_input = document.querySelector('#text')
     var add_input = document.querySelector('#add')
     var list_ul = document.querySelector('.eventlist')
 
-    var dataBase = JSON.parse(localStorage.getItem(today_display)) || []
+    var dataBase = JSON.parse(localStorage.getItem(gobal_selectDate)) || []
 
     text_input.addEventListener('keyup', function(event) {
         if (event.key === "Enter"){
@@ -125,12 +135,12 @@ generateCalendar = (month, year) => {
         }
 
         dataBase.push(todo)
-        updateList(dataBase)
 
-        localStorage.setItem(today_display, JSON.stringify(dataBase))
-
+        localStorage.setItem(gobal_selectDate, JSON.stringify(dataBase))
 
         text_input.value = ''
+        updateList()
+
     }
 
     function deleteData(e){
@@ -140,27 +150,47 @@ generateCalendar = (month, year) => {
         var num = e.target.dataset.num;
         dataBase.splice(num, 1);
 
-        localStorage.setItem(today_display, JSON.stringify(dataBase));
-        updateList(dataBase);
+        localStorage.setItem(gobal_selectDate, JSON.stringify(dataBase));
+        updateList();
 
     }
 
-    function updateList(dataBase){
-        let list = ''
-        for (let i = 0; i < dataBase.length; i++) {
-            list += '<li><a href="#" data-num='+ i +'>Del </a>' + dataBase[i].content +'</li>'
-        }
-        list_ul.innerHTML = list
+    function updateList(){
+        // let list = ''
+        // for (let i = 0; i < dataBase.length; i++) {
+        //     list += '<li><a href="#" data-num='+ i +'>Del </a>' + dataBase[i].content +'</li>'
+        // }
+        // list_ul.innerHTML = list
 
-        // const name = localStorage.getItem(today_display)
-        // console.log(name)
+        function isKeyInLocalStorage(gobal_selectDate) {
+            if( localStorage.getItem(gobal_selectDate) !== null ){
+                return false;
+            }
+            else{
+                
+            }
+        }
+        
 
         for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            const value = localStorage.getItem(key);
-        
-            console.log(`Key: ${key}, Value: ${value}`);
+            if (gobal_selectDate === localStorage.key(i)){
+                const key = localStorage.key(i);
+                const value = localStorage.getItem(key);
+                const parsedValue = JSON.parse(value);
+                let list = ''
+
+                for (let i = 0; i < parsedValue.length; i++) {
+                    list += '<li><a href="#" data-num='+ i +'>Del </a>' + parsedValue[i].content +'</li>'
+                }
+                list_ul.innerHTML = list
+            }
         }
+        // for (let i = 0; i < localStorage.length; i++) {
+        //     const key = localStorage.key(i);
+        //     const value = localStorage.getItem(key);
+        
+        //     console.log(`Key: ${key}, Value: ${value}`);
+        // }
     }
 }
 
