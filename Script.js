@@ -42,6 +42,8 @@ month_picker.onclick = () => {
 generateCalendar = (month, year) => {
     let calendar_days = document.querySelector('#calendar-days')
     let calendar_year = document.querySelector('#year-display')
+    let event_date = document.querySelector('#event-date')
+
     
     let days_of_month = [31, getFeduaryDay(year), 31, 30, 31, 30, 31, 31, 30 ,31, 30, 31]
 
@@ -57,27 +59,112 @@ generateCalendar = (month, year) => {
 
     let first_day = new Date(year, month, 1)
 
+
+    let today_display = `${weekdays[first_day.getDay()]} ${currDate.getDate()} ${months_name[month]} ${year}`
+
+    event_date.innerHTML = today_display
+
+
     // the loop will create the day space for every month, it will count the month of the days and the start day is which day 
     for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
 
         let day = document.createElement('div')
 
         if (i >= first_day.getDay()) {
-            day.classList.add('calendar-day-hover')
             day.innerHTML = i - first_day.getDay() + 1 // add the day number
 
             if (i - first_day.getDay() + 1 === currDate.getDate() && year === currDate.getFullYear() && month === currDate.getMonth()) {
                 day.classList.add('curr_date') // add today date the class='curr'date'
             }
+
+            day.addEventListener('click', function () {
+                // 清除之前選擇的日期的樣式
+                document.querySelectorAll('.selected-date').forEach(element => {
+                    element.classList.remove('selected-date');
+                });
+    
+                // 添加選擇日期的樣式
+                this.classList.add('selected-date');
+    
+                // 在這裡你可以執行其他相關的操作，例如顯示所選日期
+
+                let select_date = `${weekdays[first_day.getDay()]} ${i - first_day.getDay() + 1} ${months_name[month]} ${year}`
+    
+                event_date.innerHTML = select_date
+
+            });
         }
         calendar_days.appendChild(day)
+    }
+    
+    // Create Event List
+    var text_input = document.querySelector('#text')
+    var add_input = document.querySelector('#add')
+    var list_ul = document.querySelector('.eventlist')
+
+    var dataBase = JSON.parse(localStorage.getItem(today_display)) || []
+
+    text_input.addEventListener('keyup', function(event) {
+        if (event.key === "Enter"){
+            addData()
+        }
+    });
+    add_input.addEventListener('click', addData)
+    list_ul.addEventListener('click', deleteData)
+
+    function addData() {
+        var txt = text_input.value
+
+        if (txt.trim() === ""){
+            alert('need to type some!')
+            return;
+        }
+
+        var todo = {
+            content: txt
+        }
+
+        dataBase.push(todo)
+        updateList(dataBase)
+
+        localStorage.setItem(today_display, JSON.stringify(dataBase))
+
+
+        text_input.value = ''
+    }
+
+    function deleteData(e){
+        e.preventDefault();
+        if (e.target.nodeName !== 'A'){return;};
+
+        var num = e.target.dataset.num;
+        dataBase.splice(num, 1);
+
+        localStorage.setItem(today_display, JSON.stringify(dataBase));
+        updateList(dataBase);
+
+    }
+
+    function updateList(dataBase){
+        let list = ''
+        for (let i = 0; i < dataBase.length; i++) {
+            list += '<li><a href="#" data-num='+ i +'>Del </a>' + dataBase[i].content +'</li>'
+        }
+        list_ul.innerHTML = list
+
+        // const name = localStorage.getItem(today_display)
+        // console.log(name)
+
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            const value = localStorage.getItem(key);
+        
+            console.log(`Key: ${key}, Value: ${value}`);
+        }
     }
 }
 
 let currDate = new Date()
-
-let event_date = document.querySelector('#event-date')
-event_date.innerHTML =`${weekdays[currDate.getDay()]}  ` + `${currDate.getDate()} ` + `${months_name[currDate.getMonth()]} ` + `${currDate.getFullYear()} `
 
 let curr_month = { value: currDate.getMonth() }
 let curr_year = { value: currDate.getFullYear() }
@@ -102,6 +189,3 @@ document.querySelector('#today_button').onclick = () => {
 
     generateCalendar(curr_month.value, curr_year.value)
 }
-
-// Create Event
-

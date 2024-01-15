@@ -23,7 +23,6 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10%;
 }
 
 .warp{
@@ -93,17 +92,21 @@ a#month-picker:hover {
 }
 
 .curr_date {
+    border: 0.1rem solid #eed9c4;
+}
+
+.selected-date {
     background-color: #eed9c4;
     color: white;
     border-radius: 3px;
     cursor: pointer;
+
 }
 
 .today_button {
     display: flex;
     justify-content: flex-end;
     padding: 8px;
-
 }
 
 .today_button a {
@@ -115,16 +118,23 @@ a#month-picker:hover {
     cursor: pointer;
 }
 
+.today_button a:hover {
+    background-color: white;
+    color: #eed9c4;
+
+}
+
 
 .monthslist {
     position: absolute;
-    top: 0px;
+    top: 20%;
+    /* top: 0px;
     left: 0px;
     width: 100%;
-    height: 100%;
+    height: 100%; */
     text-align: center;
     background-color: #eed9c4;
-    padding: 20%;
+    padding: 10%;
     transform: scale(1.5);
     visibility: hidden;
     cursor: pointer;
@@ -138,15 +148,6 @@ a#month-picker:hover {
     visibility: visible;
     pointer-events: visible;
     transition: all 0.2s ease-in-out;
-}
-
-.calendar-day-hover {
-    cursor: pointer;
-}
-
-.calendar-day-hover:focus {
-    border: 0.1rem solid #eed9c4;
-    border-radius: 50%;
 }
 
 .event h2 {
@@ -163,18 +164,13 @@ a#month-picker:hover {
 .event-box {
     background-color: white;
     border-radius: 3px;
-    padding: 10px 30px;
+    padding: 10px 5px;
     min-height: 100px;
 }
-
-.event-box li {
-    padding: 8px;
-}
-
 .event-header {
     display: flex;
     justify-content: center;
-    padding: 10px;
+    padding: 15px;
     gap: 10px;
 }
 
@@ -184,6 +180,34 @@ a#month-picker:hover {
     padding: 5px;
 }
 
+.event-header input#text:focus {
+    outline: 1px solid black;
+}
+
 .event-header input#add {
     cursor: pointer;
+    border: 0.1rem solid #eed9c4;
+    background-color: #eed9c4;
+    border-radius: 10px;
+    color: white;
+}
+
+.event-header input#add:hover {
+    background-color: white;
+    border: 0.1rem solid #eed9c4;
+    color: #eed9c4;
+}
+
+.eventlist li{
+    list-style: none;
+    margin: 15px 0;
+    background: #eed9c4;
+    opacity: 0.7;
+}
+
+.eventlist a{
+    display: inline;
+    margin-inline: 15px;
+    text-decoration: none;
+    color: white;
 }
