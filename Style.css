@@ -23,12 +23,13 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 5%;
 }
 
 .warp{
     border: 0.5rem solid white;
     border-radius: 18px;
-    padding: 10%;
+    padding: 5%;
 }
 
 .Calendar{
